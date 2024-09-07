@@ -1,0 +1,13 @@
+services:
+  api_recepcao:
+    image: api_recepcao:1.0
+    ports:
+      - "5001:5001"
+  api_calendario:
+    image: api_calendario:1.0
+    ports:
+      - "5000:5000"
+  front_recepcao:
+    image: front_recepcao:1.0
+    ports:
+      - "5173:5173"
