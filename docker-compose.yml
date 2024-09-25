@@ -3,6 +3,10 @@ services:
     image: api_recepcao:1.0
     ports:
       - "5001:5001"
+    depends_on:
+      db_recepcao: 
+        condition: service_healthy
+        # restart: true
   api_calendario:
     image: api_calendario:1.0
     ports:
@@ -11,3 +15,20 @@ services:
     image: front_recepcao:1.0
     ports:
       - "5173:5173"
+  db_recepcao:
+    image: mysql
+    environment:
+      - MYSQL_USER=recepcao
+      - MYSQL_PASSWORD=senha123
+      - MYSQL_DATABASE=recepcao
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+    volumes:
+      - db_recepcao_volume:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10
+      interval: 5s
+
+volumes:
+  db_recepcao_volume:
